@@ -56,6 +56,11 @@ export default buildConfig({
         },
       ],
     },
+    timezones: {
+      defaultTimezone: 'Asia/Bangkok',
+      supportedTimezones: [{ label: '(UTC+07:00) Bangkok', value: 'Asia/Bangkok' }],
+    },
+    dateFormat: 'dd/MM/yyyy',
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
