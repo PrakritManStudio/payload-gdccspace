@@ -12,54 +12,7 @@
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "supportedTimezones".
  */
-export type SupportedTimezones =
-  | 'Pacific/Midway'
-  | 'Pacific/Niue'
-  | 'Pacific/Honolulu'
-  | 'Pacific/Rarotonga'
-  | 'America/Anchorage'
-  | 'Pacific/Gambier'
-  | 'America/Los_Angeles'
-  | 'America/Tijuana'
-  | 'America/Denver'
-  | 'America/Phoenix'
-  | 'America/Chicago'
-  | 'America/Guatemala'
-  | 'America/New_York'
-  | 'America/Bogota'
-  | 'America/Caracas'
-  | 'America/Santiago'
-  | 'America/Buenos_Aires'
-  | 'America/Sao_Paulo'
-  | 'Atlantic/South_Georgia'
-  | 'Atlantic/Azores'
-  | 'Atlantic/Cape_Verde'
-  | 'Europe/London'
-  | 'Europe/Berlin'
-  | 'Africa/Lagos'
-  | 'Europe/Athens'
-  | 'Africa/Cairo'
-  | 'Europe/Moscow'
-  | 'Asia/Riyadh'
-  | 'Asia/Dubai'
-  | 'Asia/Baku'
-  | 'Asia/Karachi'
-  | 'Asia/Tashkent'
-  | 'Asia/Calcutta'
-  | 'Asia/Dhaka'
-  | 'Asia/Almaty'
-  | 'Asia/Jakarta'
-  | 'Asia/Bangkok'
-  | 'Asia/Shanghai'
-  | 'Asia/Singapore'
-  | 'Asia/Tokyo'
-  | 'Asia/Seoul'
-  | 'Australia/Brisbane'
-  | 'Australia/Sydney'
-  | 'Pacific/Guam'
-  | 'Pacific/Noumea'
-  | 'Pacific/Auckland'
-  | 'Pacific/Fiji';
+export type SupportedTimezones = 'Asia/Bangkok';
 
 export interface Config {
   auth: {
@@ -103,10 +56,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    'popup-ads': PopupAd;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'popup-ads': PopupAdsSelect<false> | PopupAdsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -383,13 +338,6 @@ export interface User {
   hash?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
   password?: string | null;
 }
 /**
@@ -1283,13 +1231,6 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1605,6 +1546,71 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
+ * การตั้งค่าโฆษณาป๊อปอัพ
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "popup-ads".
+ */
+export interface PopupAd {
+  id: string;
+  /**
+   * รายการโฆษณาที่จะแสดงเป็นป๊อปอัพ สามารถลากเพื่อเปลี่ยนลำดับการแสดงผลได้
+   */
+  ads?:
+    | {
+        /**
+         * เปิด/ปิดการแสดงผลโฆษณานี้
+         */
+        isActive?: boolean | null;
+        /**
+         * ชื่อของโฆษณาสำหรับการจัดการ
+         */
+        title: string;
+        /**
+         * รูปภาพที่จะแสดงในโฆษณา (สามารถมีหลายรูปได้)
+         */
+        images: {
+          image: string | Media;
+          /**
+           * ข้อความอธิบายรูปภาพ
+           */
+          alt?: string | null;
+          id?: string | null;
+        }[];
+        /**
+         * ลิงก์ที่จะเปิดเมื่อคลิกที่โฆษณา
+         */
+        link?: string | null;
+        /**
+         * เปิดลิงก์ในแท็บใหม่หรือไม่
+         */
+        openInNewTab?: boolean | null;
+        /**
+         * ระยะเวลา (มิลลิวินาที) ที่จะแสดงโฆษณานี้
+         */
+        displayDuration: number;
+        displaySettings?: {
+          /**
+           * วันที่จะเริ่มแสดงโฆษณานี้ (เว้นว่างหากต้องการแสดงทันที)
+           */
+          startDate?: string | null;
+          /**
+           * วันที่จะหยุดแสดงโฆษณานี้ (เว้นว่างหากไม่มีวันสิ้นสุด)
+           */
+          endDate?: string | null;
+        };
+        /**
+         * ลำดับการแสดงผล (เลขน้อยจะแสดงก่อน) หรือใช้การลากเพื่อจัดลำดับ
+         */
+        displayOrder?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -1646,6 +1652,40 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "popup-ads_select".
+ */
+export interface PopupAdsSelect<T extends boolean = true> {
+  ads?:
+    | T
+    | {
+        isActive?: T;
+        title?: T;
+        images?:
+          | T
+          | {
+              image?: T;
+              alt?: T;
+              id?: T;
+            };
+        link?: T;
+        openInNewTab?: T;
+        displayDuration?: T;
+        displaySettings?:
+          | T
+          | {
+              startDate?: T;
+              endDate?: T;
+            };
+        displayOrder?: T;
+        id?: T;
+      };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
