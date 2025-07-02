@@ -16,6 +16,9 @@ const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
   slug: 'eoffice-media',
+  admin: {
+    group: 'eOffice',
+  },
   access: {
     create: authenticated,
     delete: authenticated,
