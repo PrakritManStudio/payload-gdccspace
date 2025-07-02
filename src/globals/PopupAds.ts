@@ -1,9 +1,13 @@
 import type { GlobalConfig } from 'payload'
 
+import { authenticated } from '../access/authenticated'
+import { authenticatedOrPublished } from '../access/authenticatedOrPublished'
+
 export const PopupAds: GlobalConfig = {
   slug: 'popup-ads',
   access: {
-    read: () => true,
+    read: authenticatedOrPublished,
+    update: authenticated,
   },
   fields: [
     {
@@ -49,6 +53,7 @@ export const PopupAds: GlobalConfig = {
               type: 'upload',
               relationTo: 'media',
               required: true,
+              hasMany: false,
 
               filterOptions() {
                 return {
