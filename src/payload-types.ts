@@ -25,6 +25,7 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    'eoffice-media': EofficeMedia;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -41,6 +42,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'eoffice-media': EofficeMediaSelect<false> | EofficeMediaSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -215,7 +217,7 @@ export interface Post {
  */
 export interface Media {
   id: string;
-  alt: string;
+  alt?: string | null;
   caption?: {
     root: {
       type: string;
@@ -252,6 +254,54 @@ export interface Media {
       filename?: string | null;
     };
     webp?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    square?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    small?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    medium?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    large?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    xlarge?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    og?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -644,6 +694,58 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "eoffice-media".
+ */
+export interface EofficeMedia {
+  id: string;
+  alt: string;
+  caption?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    webp?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -834,6 +936,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: string | User;
+      } | null)
+    | ({
+        relationTo: 'eoffice-media';
+        value: string | EofficeMedia;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1104,6 +1210,66 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
+        square?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        small?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        medium?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        large?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        xlarge?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        og?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
       };
 }
 /**
@@ -1141,6 +1307,49 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "eoffice-media_select".
+ */
+export interface EofficeMediaSelect<T extends boolean = true> {
+  alt?: T;
+  caption?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        webp?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1472,51 +1681,9 @@ export interface PopupAd {
          * เปิด/ปิดการแสดงผลโฆษณานี้
          */
         isActive?: boolean | null;
-        /**
-         * ชื่อของโฆษณาสำหรับการจัดการ
-         */
-        title: string;
-        /**
-         * รูปภาพที่จะแสดงในโฆษณา (สามารถมีหลายรูปได้)
-         */
-        images: {
-          image: string | Media;
-          /**
-           * ข้อความอธิบายรูปภาพ
-           */
-          alt?: string | null;
-          id?: string | null;
-        }[];
-        /**
-         * ลิงก์ที่จะเปิดเมื่อคลิกที่โฆษณา
-         */
-        link?: string | null;
-        /**
-         * เปิดลิงก์ในแท็บใหม่หรือไม่
-         */
-        openInNewTab?: boolean | null;
-        /**
-         * ระยะเวลา (มิลลิวินาที) ที่จะแสดงโฆษณานี้
-         */
-        displayDuration: number;
-        displaySettings?: {
-          /**
-           * วันที่จะเริ่มแสดงโฆษณานี้ (เว้นว่างหากต้องการแสดงทันที)
-           */
-          startDate?: string | null;
-          /**
-           * วันที่จะหยุดแสดงโฆษณานี้ (เว้นว่างหากไม่มีวันสิ้นสุด)
-           */
-          endDate?: string | null;
-        };
-        /**
-         * ลำดับการแสดงผล (เลขน้อยจะแสดงก่อน) หรือใช้การลากเพื่อจัดลำดับ
-         */
-        displayOrder?: number | null;
         id?: string | null;
       }[]
     | null;
-  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1575,27 +1742,8 @@ export interface PopupAdsSelect<T extends boolean = true> {
     | T
     | {
         isActive?: T;
-        title?: T;
-        images?:
-          | T
-          | {
-              image?: T;
-              alt?: T;
-              id?: T;
-            };
-        link?: T;
-        openInNewTab?: T;
-        displayDuration?: T;
-        displaySettings?:
-          | T
-          | {
-              startDate?: T;
-              endDate?: T;
-            };
-        displayOrder?: T;
         id?: T;
       };
-  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
