@@ -8,6 +8,17 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  basePath: '/cms',
+  assetPrefix: '/cms/',
+  allowedDevOrigins: [
+    'localhost',
+    '127.0.0.1',
+    'gdccspace.com',
+    'www.gdccspace.com',
+    'eoffice.go.th',
+    'www.eoffice.go.th',
+  ],
+
   images: {
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {

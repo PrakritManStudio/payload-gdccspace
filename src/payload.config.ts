@@ -23,6 +23,10 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  routes: {
+    api: '/cms/api',
+    admin: '/admin',
+  },
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
@@ -70,7 +74,15 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   collections: [Pages, Posts, Media, Categories, Users],
-  cors: [getServerSideURL()].filter(Boolean),
+  cors: [
+    ...[getServerSideURL()].filter(Boolean),
+    'localhost',
+    '127.0.0.1',
+    'gdccspace.com',
+    'www.gdccspace.com',
+    'eoffice.go.th',
+    'www.eoffice.go.th',
+  ],
   globals: [Header, Footer, PopupAds],
   plugins: [
     ...plugins,
